@@ -38,7 +38,25 @@ class PersonaView(View):
         Persona.objects.create(name=jd['name'],lastname=jd['lastname'],age=jd['age'])
         datos={'message':"Success"}
         return JsonResponse(datos)
-    def put(self, request):
-        pass
+    
+    
+    def put(self, request,id):
+        
+        jd= json.loads(request.body)
+        
+        personas= list(Persona.objects.filter(id=id).values())
+        
+        if len(personas) > 0:
+            persona = Persona.objects.get(id=id)
+            persona.name=jd['name']
+            persona.lastname=jd['lastname']
+            persona.age=jd['age']
+            persona.save()
+            datos={'message':"Success"}
+        else:
+            datos={'message':"Persona not found..."}
+        return JsonResponse(datos)
+
+
     def delete(self, request):
         pass
