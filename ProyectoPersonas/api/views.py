@@ -58,5 +58,13 @@ class PersonaView(View):
         return JsonResponse(datos)
 
 
-    def delete(self, request):
-        pass
+    def delete(self, request,id):
+        
+        personas= list(Persona.objects.filter(id=id).values())
+        
+        if len(personas) > 0:
+            Persona.objects.filter(id=id).delete()
+            datos={'message':"Success"}
+        else:
+            datos={'message':"Persona not found..."}
+        return JsonResponse(datos)
